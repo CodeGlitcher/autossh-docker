@@ -1,7 +1,14 @@
 #!/bin/bash
 set -e
 
-CONFIG_PATH=/data/options.json
+CONFIG_PATH=/data/config.json
+
+if [ ! -d "$CONFIG_PATH" ]; then
+    echo "missing config data"
+    echo "creating empty config.json"
+    cp /example/config-example.json /data/config.json
+    exit 1
+fi
 
 HOSTNAME=$(jq --raw-output ".hostname" $CONFIG_PATH)
 SSH_PORT=$(jq --raw-output ".ssh_port" $CONFIG_PATH)
@@ -15,7 +22,6 @@ OTHER_SSH_OPTIONS=$(jq --raw-output ".other_ssh_options" $CONFIG_PATH)
 MONITOR_PORT=$(jq --raw-output ".monitor_port" $CONFIG_PATH)
 KEY_PATH=$(jq --raw-output ".private_key" $CONFIG_PATH)
 
-# Generate key
 if [ ! -d "$KEY_PATH" ]; then
     echo "missing private key"
     exit 1
