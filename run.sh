@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+echo "starting"
 CONFIG_PATH=/data/config.json
 
 if [ ! -f "$CONFIG_PATH" ]; then
