@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -x
+set -e
 echo "starting"
 CONFIG_PATH=/data/config.json
 
