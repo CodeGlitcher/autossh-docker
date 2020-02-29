@@ -3,7 +3,7 @@ set -e
 
 CONFIG_PATH=/data/config.json
 
-if [ ! -d "$CONFIG_PATH" ]; then
+if [ ! -f "$CONFIG_PATH" ]; then
     echo "missing config data"
     echo "creating empty config.json"
     cp /example/config-example.json /data/config.json
@@ -20,17 +20,17 @@ LOCAL_FORWARDING=$(jq --raw-output ".local_forwarding[]" $CONFIG_PATH)
 
 OTHER_SSH_OPTIONS=$(jq --raw-output ".other_ssh_options" $CONFIG_PATH)
 MONITOR_PORT=$(jq --raw-output ".monitor_port" $CONFIG_PATH)
-KEY_PATH=$(jq --raw-output ".private_key" $CONFIG_PATH)
+PRIVATE_KEY=$(jq --raw-output ".private_key" $CONFIG_PATH)
 
-if [ ! -d "$KEY_PATH" ]; then
+if [ ! -f "$PRIVATE_KEY" ]; then
     echo "missing private key"
     exit 1
 fi
 
 echo "[INFO] public key is:"
-cat "${KEY_PATH}"
+cat "${PRIVATE_KEY}"
 
-command_args="-M ${MONITOR_PORT} -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${USERNAME}@${HOSTNAME} -p ${SSH_PORT} -i ${KEY_PATH}"
+command_args="-M ${MONITOR_PORT} -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${USERNAME}@${HOSTNAME} -p ${SSH_PORT} -i ${PRIVATE_KEY}"
 
 if [ ! -z "$REMOTE_FORWARDING" ]; then
   while read -r line; do
