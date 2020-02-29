@@ -11,7 +11,6 @@ version: "3.7"
 services:
   autossh:
     image: robg66/autossh
-    environment:
     volumes:
       - /path-to-data-folder:/config
 ```

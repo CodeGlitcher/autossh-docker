@@ -9,4 +9,4 @@ RUN mkdir /example
 COPY config-example.json /example
 RUN chmod a+x /run.sh
 VOLUME [ "/data" ]
-CMD [ "/run.sh" ]
+CMD ["sh", "/run.sh" ]
