@@ -2,7 +2,7 @@
     "hostname": "",
     "ssh_port": "22",
     "username": "autossh",
-    "private_key": "/data/ssh_keys/private.ppk",
+    "private_key": "/data/ssh_keys/private.key",
     "remote_forwarding": [
         "127.0.0.1:8123:172.17.0.1:8123"
     ],
