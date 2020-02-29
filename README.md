@@ -12,5 +12,5 @@ services:
   autossh:
     image: robg66/autossh
     volumes:
-      - /path-to-data-folder:/config
+      - /path-to-data-folder:/data
 ```

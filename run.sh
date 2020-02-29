@@ -27,9 +27,6 @@ if [ ! -f "$PRIVATE_KEY" ]; then
     exit 1
 fi
 
-echo "[INFO] public key is:"
-cat "${PRIVATE_KEY}"
-
 command_args="-M ${MONITOR_PORT} -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${USERNAME}@${HOSTNAME} -p ${SSH_PORT} -i ${PRIVATE_KEY}"
 
 if [ ! -z "$REMOTE_FORWARDING" ]; then
