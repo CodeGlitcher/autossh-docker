@@ -1,11 +1,11 @@
 #!/bin/bash
-set -e
+set -e -x
 echo "starting"
 CONFIG_PATH=/data/config.json
 
 if [ ! -f "$CONFIG_PATH" ]; then
     echo "missing config data"
-    echo "creating empty config.json"
+    echo "coping example json to data dir"
     cp /example/config-example.json /data/config.json
     exit 1
 fi
@@ -13,7 +13,6 @@ fi
 HOSTNAME=$(jq --raw-output ".hostname" $CONFIG_PATH)
 SSH_PORT=$(jq --raw-output ".ssh_port" $CONFIG_PATH)
 USERNAME=$(jq --raw-output ".username" $CONFIG_PATH)
-
 
 REMOTE_FORWARDING=$(jq --raw-output ".remote_forwarding[]" $CONFIG_PATH)
 LOCAL_FORWARDING=$(jq --raw-output ".local_forwarding[]" $CONFIG_PATH)
@@ -30,6 +29,7 @@ fi
 command_args="-M ${MONITOR_PORT} -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${USERNAME}@${HOSTNAME} -p ${SSH_PORT} -i ${PRIVATE_KEY}"
 
 if [ ! -z "$REMOTE_FORWARDING" ]; then
+  echo "Adding remote forarding rules"
   while read -r line; do
     command_args="${command_args} -R $line"
   done <<< "$REMOTE_FORWARDING"
@@ -37,6 +37,7 @@ fi
 
 
 if [ ! -z "$LOCAL_FORWARDING" ]; then
+  echo "Adding local forarding rules"
   while read -r line; do
     command_args="${command_args} -L $line"
   done <<< "$LOCAL_FORWARDING"
