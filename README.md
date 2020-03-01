@@ -1,7 +1,7 @@
 # AutoSsh docker container
 
 A docker container with autossh installed.
-Autossh is configured using a config.json.
+Autossh is configured using config.json.
 This file must be present in `/data/config.json`
 If file does not exist the container will create one. 
 
